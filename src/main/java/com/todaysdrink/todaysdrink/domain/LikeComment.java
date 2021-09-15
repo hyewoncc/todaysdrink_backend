@@ -1,10 +1,12 @@
 package com.todaysdrink.todaysdrink.domain;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 import javax.persistence.*;
 
 @Entity
+@Getter
 @AllArgsConstructor
 public class LikeComment {
 

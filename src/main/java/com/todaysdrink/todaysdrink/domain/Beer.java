@@ -1,12 +1,14 @@
 package com.todaysdrink.todaysdrink.domain;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Getter
 @AllArgsConstructor
 public class Beer {
 
