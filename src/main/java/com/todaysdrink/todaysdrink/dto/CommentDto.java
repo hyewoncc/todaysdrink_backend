@@ -12,13 +12,15 @@ public class CommentDto {
     private Long beer_id;
     private String name;
     private String content;
-    private Long like;
+    private Long commentLikeId;
+    private Long commentLikes;
 
     public CommentDto(Comment comment) {
         id = comment.getId();
         beer_id = comment.getBeer().getId();
         name = comment.getName();
         content = comment.getContent();
-        like = comment.getLike().getCount();
+        commentLikeId = comment.getLike().getId();
+        commentLikes = comment.getLike().getCount();
     }
 }
