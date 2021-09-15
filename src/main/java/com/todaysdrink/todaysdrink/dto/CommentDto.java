@@ -9,7 +9,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class CommentDto {
     private Long id;
-    private Long beer_id;
+    private Long beerId;
     private String name;
     private String content;
     private Long commentLikeId;
@@ -17,7 +17,7 @@ public class CommentDto {
 
     public CommentDto(Comment comment) {
         id = comment.getId();
-        beer_id = comment.getBeer().getId();
+        beerId = comment.getBeer().getId();
         name = comment.getName();
         content = comment.getContent();
         commentLikeId = comment.getLike().getId();

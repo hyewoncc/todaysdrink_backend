@@ -39,7 +39,7 @@ public class LikeBeer {
     }
 
     /* 생성 */
-    public LikeBeer createLikeBeer(Beer beer) {
+    public static LikeBeer createLikeBeer(Beer beer) {
         LikeBeer likeBeer = new LikeBeer();
         likeBeer.initLikeBeer(beer);
         return likeBeer;

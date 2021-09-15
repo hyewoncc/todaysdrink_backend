@@ -39,7 +39,7 @@ public class LikeComment {
     }
 
     /* 생성 */
-    public LikeComment createLikeComment(Comment comment) {
+    public static LikeComment createLikeComment(Comment comment) {
         LikeComment likeComment = new LikeComment();
         likeComment.initLikeComment(comment);
         return likeComment;

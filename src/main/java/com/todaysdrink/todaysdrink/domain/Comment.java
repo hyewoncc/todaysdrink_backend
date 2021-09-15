@@ -1,5 +1,6 @@
 package com.todaysdrink.todaysdrink.domain;
 
+import com.todaysdrink.todaysdrink.dto.CommentDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -34,16 +35,16 @@ public class Comment {
     protected Comment(){}
 
     /* set */
-    private void initComment(Beer beer, String name, String content) {
+    private void initComment(Beer beer, CommentDto commentDto) {
         this.beer = beer;
-        this.name = name;
-        this.content = content;
+        this.name = commentDto.getName();
+        this.content = commentDto.getContent();
     }
 
     /* 생성 */
-    public Comment createComment(Beer beer, String name, String content) {
+    public static Comment createComment(Beer beer, CommentDto commentDto) {
         Comment comment = new Comment();
-        comment.initComment(beer, name, content);
+        comment.initComment(beer, commentDto);
         return comment;
     }
 }
