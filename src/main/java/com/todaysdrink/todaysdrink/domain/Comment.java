@@ -2,8 +2,10 @@ package com.todaysdrink.todaysdrink.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 @Entity
 @Getter
@@ -26,5 +28,22 @@ public class Comment {
     @JoinColumn(name = "LIKECOMMENT_ID")
     private LikeComment like;
 
+    @CreationTimestamp
+    private Timestamp createTime;
+
     protected Comment(){}
+
+    /* set */
+    private void initComment(Beer beer, String name, String content) {
+        this.beer = beer;
+        this.name = name;
+        this.content = content;
+    }
+
+    /* 생성 */
+    public Comment createComment(Beer beer, String name, String content) {
+        Comment comment = new Comment();
+        comment.initComment(beer, name, content);
+        return comment;
+    }
 }

@@ -27,4 +27,21 @@ public class LikeComment {
     public void upCount(){
         this.count += 1L;
     }
+
+    public void downCount() {
+        this.count -= 1L;
+    }
+
+    /* set */
+    private void initLikeComment(Comment comment) {
+        this.comment = comment;
+        this.count = 0L;
+    }
+
+    /* 생성 */
+    public LikeComment createLikeComment(Comment comment) {
+        LikeComment likeComment = new LikeComment();
+        likeComment.initLikeComment(comment);
+        return likeComment;
+    }
 }

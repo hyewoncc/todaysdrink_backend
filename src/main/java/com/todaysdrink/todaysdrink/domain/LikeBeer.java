@@ -27,4 +27,21 @@ public class LikeBeer {
     public void upCount() {
         this.count += 1L;
     }
+
+    public void downCount() {
+        this.count -= 1L;
+    }
+
+    /* set */
+    private void initLikeBeer(Beer beer) {
+        this.beer = beer;
+        this.count = 0L;
+    }
+
+    /* 생성 */
+    public LikeBeer createLikeBeer(Beer beer) {
+        LikeBeer likeBeer = new LikeBeer();
+        likeBeer.initLikeBeer(beer);
+        return likeBeer;
+    }
 }

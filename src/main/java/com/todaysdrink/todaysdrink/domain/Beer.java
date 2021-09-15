@@ -18,11 +18,15 @@ public class Beer {
     private Long id;
 
     private String name;
+
     @Enumerated(EnumType.STRING)
     private Country country;
-    private double alcohol;
+
+    @Enumerated(EnumType.STRING)
+    private BeerType beerType;
 
     private int bitter;
+    private double alcohol;
 
     @Column(length = 512)
     private String description;
