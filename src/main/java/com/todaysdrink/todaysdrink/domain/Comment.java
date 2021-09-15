@@ -22,5 +22,9 @@ public class Comment {
     private String name;
     private String content;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "LIKECOMMENT_ID")
+    private LikeComment like;
+
     protected Comment(){}
 }
