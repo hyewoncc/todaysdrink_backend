@@ -32,6 +32,8 @@ public class Beer {
     @Column(length = 512)
     private String description;
 
+    private int images;
+
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "LIKEBEER_ID")
     private LikeBeer like;
@@ -51,6 +53,7 @@ public class Beer {
         this.bitter = beerDto.getBitter();
         this.alcohol = beerDto.getAlcohol();
         this.description = beerDto.getDescription();
+        this.images = beerDto.getImages();
     }
 
     /* 생성 */

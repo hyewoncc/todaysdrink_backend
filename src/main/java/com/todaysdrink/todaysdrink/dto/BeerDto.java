@@ -17,6 +17,7 @@ public class BeerDto {
     private int bitter;
     private double alcohol;
     private String description;
+    private int images;
     private Long beerLikeId;
     private Long beerLikes;
 
@@ -27,6 +28,7 @@ public class BeerDto {
         alcohol = beer.getAlcohol();
         bitter = beer.getBitter();
         description = beer.getDescription();
+        images = beer.getImages();
         beerLikeId = beer.getLike().getId();
         beerLikes = beer.getLike().getCount();
     }
