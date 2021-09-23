@@ -4,17 +4,15 @@ import com.todaysdrink.todaysdrink.domain.Beer;
 import com.todaysdrink.todaysdrink.domain.LikeBeer;
 import com.todaysdrink.todaysdrink.dto.BeerDto;
 import com.todaysdrink.todaysdrink.repository.BeerRepository;
-import com.todaysdrink.todaysdrink.repository.CommentRepository;
 import com.todaysdrink.todaysdrink.repository.LikeBeerRepository;
-import com.todaysdrink.todaysdrink.repository.LikeCommentRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,8 +26,9 @@ public class BeerService {
 
     // 맥주 추가
     @Transactional
-    public Beer addBeer(BeerDto beerDto) {
-        Beer beer = Beer.createBeer(beerDto);
+    public Beer saveBeer(BeerDto beerDto) {
+        LikeBeer likeBeer = this.addLikeBeer();
+        Beer beer = Beer.createBeer(beerDto, likeBeer);
         beerRepository.save(beer);
         return beer;
     }
@@ -37,28 +36,24 @@ public class BeerService {
 
     // 맥주 좋아요 추가
     @Transactional
-    public LikeBeer addLikeBeer(Beer beer) {
-        LikeBeer likeBeer = LikeBeer.createLikeBeer(beer);
+    public LikeBeer addLikeBeer() {
+        LikeBeer likeBeer = LikeBeer.createLikeBeer();
         likeBeerRepository.save(likeBeer);
         return likeBeer;
     }
 
 
     // 단일 맥주 반환
-    public BeerDto getOneBeer(Long beerId) {
-        Beer beer = beerRepository.getById(beerId);
-        BeerDto result = new BeerDto(beer);
-        return result;
+    public Optional<Beer> getOneBeer(Long beerId) {
+        Optional<Beer> beer = beerRepository.findById(beerId);
+        return beer;
     }
 
 
     // 맥주 목록 반환
-    public List<BeerDto> getBeerList(Pageable pageable) {
+    public Page<Beer> getBeerList(Pageable pageable) {
         Page<Beer> listBeers = beerRepository.findAll(pageable);
-        List<BeerDto> result = listBeers.stream()
-                .map(b -> new BeerDto(b))
-                .collect(Collectors.toList());
-        return result;
+        return listBeers;
     }
 
 

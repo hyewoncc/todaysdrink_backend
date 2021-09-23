@@ -7,6 +7,8 @@ import com.todaysdrink.todaysdrink.domain.LikeBeer;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.util.Optional;
+
 @Data
 @AllArgsConstructor
 public class BeerDto {
@@ -31,5 +33,17 @@ public class BeerDto {
         images = beer.getImages();
         beerLikeId = beer.getLike().getId();
         beerLikes = beer.getLike().getCount();
+    }
+
+    public BeerDto(Optional<Beer> beer) {
+        id = beer.get().getId();
+        name = beer.get().getName();
+        country = beer.get().getCountry();
+        alcohol = beer.get().getAlcohol();
+        bitter = beer.get().getBitter();
+        description = beer.get().getDescription();
+        images = beer.get().getImages();
+        beerLikeId = beer.get().getLike().getId();
+        beerLikes = beer.get().getLike().getCount();
     }
 }

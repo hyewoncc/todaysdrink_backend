@@ -2,6 +2,7 @@ package com.todaysdrink.todaysdrink.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 
@@ -15,8 +16,7 @@ public class LikeBeer {
     @Column(name = "LIKEBEER_ID")
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "BEER_ID")
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "like")
     private Beer beer;
 
     private Long count;
@@ -33,15 +33,14 @@ public class LikeBeer {
     }
 
     /* set */
-    private void initLikeBeer(Beer beer) {
-        this.beer = beer;
+    private void initLikeBeer() {
         this.count = 0L;
     }
 
     /* 생성 */
-    public static LikeBeer createLikeBeer(Beer beer) {
+    public static LikeBeer createLikeBeer() {
         LikeBeer likeBeer = new LikeBeer();
-        likeBeer.initLikeBeer(beer);
+        likeBeer.initLikeBeer();
         return likeBeer;
     }
 }

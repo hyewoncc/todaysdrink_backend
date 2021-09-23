@@ -46,7 +46,7 @@ public class Beer {
     /**
      * dto를 바탕으로 새 beer 인스턴스 값을 set
      */
-    private void initBeer(BeerDto beerDto) {
+    private void initBeer(BeerDto beerDto, LikeBeer likeBeer) {
         this.name = beerDto.getName();
         this.country = beerDto.getCountry();
         this.beerType = beerDto.getBeerType();
@@ -54,12 +54,13 @@ public class Beer {
         this.alcohol = beerDto.getAlcohol();
         this.description = beerDto.getDescription();
         this.images = beerDto.getImages();
+        this.like = likeBeer;
     }
 
     /* 생성 */
-    public static Beer createBeer(BeerDto beerDto) {
+    public static Beer createBeer(BeerDto beerDto, LikeBeer likeBeer) {
         Beer beer = new Beer();
-        beer.initBeer(beerDto);
+        beer.initBeer(beerDto, likeBeer);
         return beer;
     }
 }
