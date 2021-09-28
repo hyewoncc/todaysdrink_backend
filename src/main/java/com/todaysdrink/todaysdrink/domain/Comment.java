@@ -35,16 +35,17 @@ public class Comment {
     protected Comment(){}
 
     /* set */
-    private void initComment(Beer beer, CommentDto commentDto) {
+    private void initComment(CommentDto commentDto, LikeComment likeComment, Beer beer) {
         this.beer = beer;
         this.name = commentDto.getName();
         this.content = commentDto.getContent();
+        this.like = likeComment;
     }
 
     /* 생성 */
-    public static Comment createComment(Beer beer, CommentDto commentDto) {
+    public static Comment createComment(CommentDto commentDto, LikeComment likeComment, Beer beer) {
         Comment comment = new Comment();
-        comment.initComment(beer, commentDto);
+        comment.initComment(commentDto, likeComment, beer);
         return comment;
     }
 }

@@ -15,8 +15,7 @@ public class LikeComment {
     @Column(name = "LIKECOMMENT_ID")
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "COMMENT_ID")
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "like")
     private Comment comment;
 
     private Long count;
@@ -33,15 +32,14 @@ public class LikeComment {
     }
 
     /* set */
-    private void initLikeComment(Comment comment) {
-        this.comment = comment;
+    private void initLikeComment() {
         this.count = 0L;
     }
 
     /* 생성 */
-    public static LikeComment createLikeComment(Comment comment) {
+    public static LikeComment createLikeComment() {
         LikeComment likeComment = new LikeComment();
-        likeComment.initLikeComment(comment);
+        likeComment.initLikeComment();
         return likeComment;
     }
 }
