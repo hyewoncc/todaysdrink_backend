@@ -25,12 +25,12 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final LikeCommentRepository likeCommentRepository;
 
-
     // 댓글 추가
     @Transactional
-    public Comment addComment(CommentDto commentDto) {
+    public Comment saveComment(CommentDto commentDto) {
         Beer beer = beerRepository.getById(commentDto.getBeerId());
-        Comment comment = Comment.createComment(beer, commentDto);
+        LikeComment likeComment = this.addLikeComment();
+        Comment comment = Comment.createComment(commentDto, likeComment, beer);
         commentRepository.save(comment);
         return comment;
     }
@@ -38,8 +38,8 @@ public class CommentService {
 
     // 댓글 좋아요 추가
     @Transactional
-    public LikeComment addLikeComment(Comment comment) {
-        LikeComment likeComment = LikeComment.createLikeComment(comment);
+    public LikeComment addLikeComment() {
+        LikeComment likeComment = LikeComment.createLikeComment();
         likeCommentRepository.save(likeComment);
         return likeComment;
     }
