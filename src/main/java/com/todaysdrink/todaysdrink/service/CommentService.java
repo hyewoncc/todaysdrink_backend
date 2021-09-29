@@ -46,12 +46,9 @@ public class CommentService {
 
 
     // 특정 맥주의 댓글 목록 반환
-    public List<CommentDto> getCommentList(Long beerId, Pageable pageable) {
+    public Page<Comment> getCommentList(Long beerId, Pageable pageable) {
         Beer beer = beerRepository.getById(beerId);
-        Page<Comment> comments = commentRepository.findAllByBeer(beer, pageable);
-        List<CommentDto> result = comments.stream()
-                .map(c -> new CommentDto(c))
-                .collect(Collectors.toList());
+        Page<Comment> result = commentRepository.findAllByBeer(beer, pageable);
         return result;
     }
 

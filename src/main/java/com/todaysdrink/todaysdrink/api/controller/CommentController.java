@@ -1,9 +1,14 @@
 package com.todaysdrink.todaysdrink.api.controller;
 
+import com.todaysdrink.todaysdrink.domain.Beer;
 import com.todaysdrink.todaysdrink.domain.Comment;
 import com.todaysdrink.todaysdrink.dto.CommentDto;
+import com.todaysdrink.todaysdrink.service.BeerService;
 import com.todaysdrink.todaysdrink.service.CommentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +16,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -22,6 +29,21 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class CommentController {
 
     private final CommentService commentService;
+    private final BeerService beerService;
+
+
+    @GetMapping("")
+    public ResponseEntity<CollectionModel<EntityModel<CommentDto>>> findAll(@RequestParam("beerId")Long beerId , Pageable pageable) {
+        Page<Comment> comments = commentService.getCommentList(beerId, pageable);
+        Optional<Beer> beer = beerService.getOneBeer(beerId);
+        Link newLink = linkTo(methodOn(BeerController.class).findOne(beer.get().getId())).withSelfRel();
+        List<EntityModel<CommentDto>> commentDtos = comments.stream()
+                .map(c -> EntityModel.of(new CommentDto(c),newLink))
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(CollectionModel.of(commentDtos,
+                linkTo(methodOn(CommentController.class).findAll(beerId, pageable)).withSelfRel()));
+    }
+
 
     @PostMapping("")
     public ResponseEntity<?> saveOne(@RequestBody CommentDto commentDto) {
@@ -33,5 +55,4 @@ public class CommentController {
             return ResponseEntity.badRequest().body("Unable to save");
         }
     }
-
 }
