@@ -57,6 +57,13 @@ public class BeerService {
     }
 
 
+    // 맥주 좋아요 조회
+    public Optional<LikeBeer> getOneLikeBeer(Long likeBeerId) {
+        Optional<LikeBeer> likeBeer = likeBeerRepository.findById(likeBeerId);
+        return likeBeer;
+    }
+
+
     // 맥주 좋아요 실행 후 조회
     @Transactional
     public Long upLikeBeer(Long likeBeerId) {
