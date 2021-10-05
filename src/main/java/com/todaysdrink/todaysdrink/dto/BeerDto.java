@@ -34,16 +34,4 @@ public class BeerDto {
         beerLikeId = beer.getLike().getId();
         beerLikes = beer.getLike().getCount();
     }
-
-    public BeerDto(Optional<Beer> beer) {
-        id = beer.get().getId();
-        name = beer.get().getName();
-        country = beer.get().getCountry();
-        alcohol = beer.get().getAlcohol();
-        bitter = beer.get().getBitter();
-        description = beer.get().getDescription();
-        images = beer.get().getImages();
-        beerLikeId = beer.get().getLike().getId();
-        beerLikes = beer.get().getLike().getCount();
-    }
 }

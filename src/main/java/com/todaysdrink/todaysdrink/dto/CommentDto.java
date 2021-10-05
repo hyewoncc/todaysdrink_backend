@@ -1,7 +1,6 @@
 package com.todaysdrink.todaysdrink.dto;
 
 import com.todaysdrink.todaysdrink.domain.Comment;
-import com.todaysdrink.todaysdrink.domain.LikeComment;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -24,14 +23,5 @@ public class CommentDto {
         content = comment.getContent();
         commentLikeId = comment.getLike().getId();
         commentLikes = comment.getLike().getCount();
-    }
-
-    public CommentDto(Optional<Comment> comment) {
-        id = comment.get().getId();
-        beerId = comment.get().getBeer().getId();
-        name = comment.get().getName();
-        content = comment.get().getContent();
-        commentLikeId = comment.get().getLike().getId();
-        commentLikes = comment.get().getLike().getCount();
     }
 }
