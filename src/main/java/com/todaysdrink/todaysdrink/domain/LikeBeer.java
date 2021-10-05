@@ -16,7 +16,7 @@ public class LikeBeer {
     @Column(name = "LIKEBEER_ID")
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "like")
+    @OneToOne(mappedBy = "like")
     private Beer beer;
 
     private Long count;

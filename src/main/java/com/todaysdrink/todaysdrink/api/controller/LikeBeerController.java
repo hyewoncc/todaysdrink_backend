@@ -2,12 +2,15 @@ package com.todaysdrink.todaysdrink.api.controller;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
+import com.todaysdrink.todaysdrink.domain.LikeBeer;
+import com.todaysdrink.todaysdrink.dto.LikeBeerDto;
 import com.todaysdrink.todaysdrink.service.BeerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.EntityModel;
-import org.springframework.hateoas.Link;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,26 +21,18 @@ public class LikeBeerController {
 
 
     @GetMapping("/{id}")
-    public ResponseEntity<EntityModel<Long>> findOne(@PathVariable Long id) {
-        Long likes = beerService.getOneLikeBeer(id).get().getCount();
-        EntityModel<Long> likesDto = EntityModel.of(likes,
-                linkTo(methodOn(LikeBeerController.class).findOne(id)).withSelfRel());
-        return ResponseEntity.ok(likesDto);
+    public ResponseEntity<EntityModel<LikeBeerDto>> findOne(@PathVariable Long id) {
+        Optional<LikeBeer> likeBeer = beerService.getOneLikeBeer(id);
+        return likeBeer.map(l -> EntityModel.of(new LikeBeerDto(l),
+                            linkTo(methodOn(BeerController.class).findOne(l.getBeer().getId())).withSelfRel()))
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
 
     @PostMapping("/{id}")
     public ResponseEntity<?> modifyOne(@PathVariable Long id, @RequestParam String modify) {
-        Long likes = 0L;
-        if(modify.equals("up")) {
-            likes = beerService.upLikeBeer(id);
-        }
-        if(modify.equals("down")) {
-            likes = beerService.downLikeBeer(id);
-        }
-        EntityModel<Long> likesDto = EntityModel.of(likes,
-                linkTo(methodOn(LikeBeerController.class).findOne(id)).withSelfRel());
-
-        return ResponseEntity.ok(likesDto);
+        LikeBeer likeBeer = modify.equals("up") ? beerService.upLikeBeer(id) : beerService.downLikeBeer(id);
+        return ResponseEntity.ok(new LikeBeerDto(likeBeer));
     }
 }

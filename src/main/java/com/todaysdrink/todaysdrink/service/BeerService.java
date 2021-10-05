@@ -66,20 +66,20 @@ public class BeerService {
 
     // 맥주 좋아요 실행 후 조회
     @Transactional
-    public Long upLikeBeer(Long likeBeerId) {
+    public LikeBeer upLikeBeer(Long likeBeerId) {
         LikeBeer likebeer = likeBeerRepository.getById(likeBeerId);
         likebeer.upCount();
         likeBeerRepository.save(likebeer);
-        return likebeer.getCount();
+        return likebeer;
     }
 
 
     // 맥주 좋아요 취소 후 조회
     @Transactional
-    public Long downLikeBeer(Long likeBeerId) {
+    public LikeBeer downLikeBeer(Long likeBeerId) {
         LikeBeer likebeer = likeBeerRepository.getById(likeBeerId);
         likebeer.downCount();
         likeBeerRepository.save(likebeer);
-        return likebeer.getCount();
+        return likebeer;
     }
 }
