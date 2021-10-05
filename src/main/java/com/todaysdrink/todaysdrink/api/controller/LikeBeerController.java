@@ -24,7 +24,9 @@ public class LikeBeerController {
     public ResponseEntity<EntityModel<LikeBeerDto>> findOne(@PathVariable Long id) {
         Optional<LikeBeer> likeBeer = beerService.getOneLikeBeer(id);
         return likeBeer.map(l -> EntityModel.of(new LikeBeerDto(l),
-                            linkTo(methodOn(BeerController.class).findOne(l.getBeer().getId())).withSelfRel()))
+                            linkTo(methodOn(LikeBeerController.class).findOne(likeBeer.get().getId())).withSelfRel(),
+                            linkTo(methodOn(LikeBeerController.class).findOne(likeBeer.get().getId())).withRel("query-event"),
+                            linkTo(methodOn(BeerController.class).findOne(likeBeer.get().getBeer().getId())).withRel("beer")))
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
