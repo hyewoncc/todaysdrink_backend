@@ -34,7 +34,7 @@ public class LikeBeerController {
 
     @PostMapping("/{id}")
     public ResponseEntity<?> modifyOne(@PathVariable Long id, @RequestParam String modify) {
-        LikeBeer likeBeer = modify.equals("up") ? beerService.upLikeBeer(id) : beerService.downLikeBeer(id);
+        LikeBeer likeBeer = modify.equals("like") ? beerService.upLikeBeer(id) : beerService.downLikeBeer(id);
         return ResponseEntity.ok(new LikeBeerDto(likeBeer));
     }
 }

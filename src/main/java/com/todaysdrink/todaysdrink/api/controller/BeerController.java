@@ -28,18 +28,23 @@ public class BeerController {
 
     private final BeerService beerService;
 
+
+    // 맥주 목록 조회
     @GetMapping("")
     public ResponseEntity<CollectionModel<EntityModel<BeerDto>>> findAll(Pageable pageable) {
         Page<Beer> beers = beerService.getBeerList(pageable);
         List<EntityModel<BeerDto>> beerDtos = beers.stream()
                 .map(b -> EntityModel.of(new BeerDto(b),
-                        linkTo(methodOn(BeerController.class).findOne(b.getId())).withSelfRel()))
+                        linkTo(methodOn(BeerController.class).findOne(b.getId())).withSelfRel(),
+                        linkTo(methodOn(LikeBeerController.class).modifyOne(b.getId(),"like")).withRel("like"),
+                        linkTo(methodOn(LikeBeerController.class).modifyOne(b.getId(),"dislike")).withRel("dislike")))
                 .collect(Collectors.toList());
         return ResponseEntity.ok(CollectionModel.of(beerDtos,
                 linkTo(methodOn(BeerController.class).findAll(pageable)).withSelfRel()));
     }
 
 
+    // 단일 맥주 저장
     @PostMapping("")
     public ResponseEntity<?> saveOne(@RequestBody BeerDto beerDto) {
         Beer beer = beerService.saveBeer(beerDto);
@@ -52,11 +57,14 @@ public class BeerController {
     }
 
 
+    // 단일 맥주 조회
     @GetMapping("/{id}")
     public ResponseEntity<EntityModel<BeerDto>> findOne(@PathVariable Long id) {
         Optional<Beer> beer = beerService.getOneBeer(id);
         return beer.map(b -> EntityModel.of(new BeerDto(b),
-                        linkTo(methodOn(BeerController.class).findOne(b.getId())).withSelfRel()))
+                        linkTo(methodOn(BeerController.class).findOne(b.getId())).withSelfRel(),
+                        linkTo(methodOn(LikeBeerController.class).modifyOne(b.getId(), "like")).withRel("like"),
+                        linkTo(methodOn(LikeBeerController.class).modifyOne(b.getId(), "dislike")).withRel("dislike")))
                     .map(ResponseEntity::ok)
                     .orElse(ResponseEntity.notFound().build());
     }
