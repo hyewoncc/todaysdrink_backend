@@ -25,8 +25,8 @@ public class LikeBeerController {
         Optional<LikeBeer> likeBeer = beerService.getOneLikeBeer(id);
         return likeBeer.map(l -> EntityModel.of(new LikeBeerDto(l),
                             linkTo(methodOn(LikeBeerController.class).findOne(likeBeer.get().getId())).withSelfRel(),
-                            linkTo(methodOn(LikeBeerController.class).findOne(likeBeer.get().getId())).withRel("query-event"),
-                            linkTo(methodOn(BeerController.class).findOne(likeBeer.get().getBeer().getId())).withRel("beer")))
+                            linkTo(methodOn(LikeBeerController.class).modifyOne(likeBeer.get().getId(), "like")).withRel("up"),
+                            linkTo(methodOn(LikeBeerController.class).modifyOne(likeBeer.get().getId(), "dislike")).withRel("cancel")))
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }

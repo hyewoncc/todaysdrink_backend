@@ -36,7 +36,8 @@ public class BeerController {
         List<EntityModel<BeerDto>> beerDtos = beers.stream()
                 .map(b -> EntityModel.of(new BeerDto(b),
                         linkTo(methodOn(BeerController.class).findOne(b.getId())).withSelfRel(),
-                        linkTo(methodOn(LikeBeerController.class).modifyOne(b.getId(),"like")).withRel("like"),
+                        linkTo(methodOn(LikeBeerController.class).findOne(b.getLike().getId())).withRel("like"),
+                        linkTo(methodOn(LikeBeerController.class).modifyOne(b.getId(),"like")).withRel("uplike"),
                         linkTo(methodOn(LikeBeerController.class).modifyOne(b.getId(),"dislike")).withRel("dislike")))
                 .collect(Collectors.toList());
         return ResponseEntity.ok(CollectionModel.of(beerDtos,
