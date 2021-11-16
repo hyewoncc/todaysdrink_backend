@@ -37,8 +37,8 @@ public class BeerController {
                 .map(b -> EntityModel.of(new BeerDto(b),
                         linkTo(methodOn(BeerController.class).findOne(b.getId())).withSelfRel(),
                         linkTo(methodOn(LikeBeerController.class).findOne(b.getLike().getId())).withRel("like"),
-                        linkTo(methodOn(LikeBeerController.class).modifyOne(b.getId(),"like")).withRel("uplike"),
-                        linkTo(methodOn(LikeBeerController.class).modifyOne(b.getId(),"dislike")).withRel("dislike")))
+                        linkTo(methodOn(LikeBeerController.class).modifyOne(b.getLike().getId(),"like")).withRel("uplike"),
+                        linkTo(methodOn(LikeBeerController.class).modifyOne(b.getLike().getId(),"dislike")).withRel("dislike")))
                 .collect(Collectors.toList());
         return ResponseEntity.ok(CollectionModel.of(beerDtos,
                 linkTo(methodOn(BeerController.class).findAll(pageable)).withSelfRel()));
@@ -64,8 +64,9 @@ public class BeerController {
         Optional<Beer> beer = beerService.getOneBeer(id);
         return beer.map(b -> EntityModel.of(new BeerDto(b),
                         linkTo(methodOn(BeerController.class).findOne(b.getId())).withSelfRel(),
-                        linkTo(methodOn(LikeBeerController.class).modifyOne(b.getId(), "like")).withRel("like"),
-                        linkTo(methodOn(LikeBeerController.class).modifyOne(b.getId(), "dislike")).withRel("dislike")))
+                        linkTo(methodOn(LikeBeerController.class).modifyOne(b.getId(), "like")).withRel("uplike"),
+                        linkTo(methodOn(LikeBeerController.class).modifyOne(b.getId(), "dislike")).withRel("dislike"),
+                        linkTo(methodOn(CommentController.class).findAll(b.getId(), null)).withRel("comments")))
                     .map(ResponseEntity::ok)
                     .orElse(ResponseEntity.notFound().build());
     }
