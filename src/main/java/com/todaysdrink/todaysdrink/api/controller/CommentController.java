@@ -32,13 +32,15 @@ public class CommentController {
     private final BeerService beerService;
 
 
+    // 특정 맥주의 모든 코멘트 조회
     @GetMapping("")
     public ResponseEntity<CollectionModel<EntityModel<CommentDto>>> findAll(@RequestParam("beerId")Long beerId , Pageable pageable) {
         Page<Comment> comments = commentService.getCommentList(beerId, pageable);
-        Optional<Beer> beer = beerService.getOneBeer(beerId);
-        Link newLink = linkTo(methodOn(BeerController.class).findOne(beer.get().getId())).withSelfRel();
         List<EntityModel<CommentDto>> commentDtos = comments.stream()
-                .map(c -> EntityModel.of(new CommentDto(c),newLink))
+                .map(c -> EntityModel.of(new CommentDto(c),
+                        linkTo(methodOn(LikeCommentController.class).findOne(c.getLike().getId())).withRel("like"),
+                        linkTo(methodOn(LikeCommentController.class).modifyOne(c.getLike().getId(), "like")).withRel("uplike"),
+                        linkTo(methodOn(LikeCommentController.class).modifyOne(c.getLike().getId(), "dislike")).withRel("dislike")))
                 .collect(Collectors.toList());
         return ResponseEntity.ok(CollectionModel.of(commentDtos,
                 linkTo(methodOn(CommentController.class).findAll(beerId, pageable)).withSelfRel()));

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -51,24 +52,31 @@ public class CommentService {
         Page<Comment> result = commentRepository.findAllByBeer(beer, pageable);
         return result;
     }
+    
+    
+    // 댓글 좋아요 조회
+    public Optional<LikeComment> getLikeComment(Long likeCommentId) {
+        Optional<LikeComment> likeComment = likeCommentRepository.findById(likeCommentId);
+        return likeComment;
+    }
 
 
     // 댓글 좋아요 실행 후 조회
     @Transactional
-    public Long upLikeComment(Long likeCommentId) {
+    public LikeComment upLikeComment(Long likeCommentId) {
         LikeComment likeComment = likeCommentRepository.getById(likeCommentId);
         likeComment.upCount();
         likeCommentRepository.save(likeComment);
-        return likeComment.getCount();
+        return likeComment;
     }
 
 
     // 댓글 좋아요 취소 후 조회
     @Transactional
-    public Long downLikeComment(Long likeCommentId) {
+    public LikeComment downLikeComment(Long likeCommentId) {
         LikeComment likeComment = likeCommentRepository.getById(likeCommentId);
         likeComment.downCount();
         likeCommentRepository.save(likeComment);
-        return likeComment.getCount();
+        return likeComment;
     }
 }
