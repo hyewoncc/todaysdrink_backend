@@ -71,4 +71,14 @@ public class BeerController {
                     .orElse(ResponseEntity.notFound().build());
     }
 
+
+    // 좋아요 순 탑5 맥주 조회
+    @GetMapping("/likes")
+    public ResponseEntity<CollectionModel<EntityModel<BeerDto>>> find5ByLike() {
+        List<Beer> beers = beerService.getTop5BeerByLike();
+        List<EntityModel<BeerDto>> beerDtos = beers.stream()
+                .map(b -> EntityModel.of(new BeerDto(b))).collect(Collectors.toList());
+        return ResponseEntity.ok(CollectionModel.of(beerDtos));
+    }
+
 }
