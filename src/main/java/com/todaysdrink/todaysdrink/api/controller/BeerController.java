@@ -66,7 +66,8 @@ public class BeerController {
                         linkTo(methodOn(BeerController.class).findOne(b.getId())).withSelfRel(),
                         linkTo(methodOn(LikeBeerController.class).modifyOne(b.getId(), "like")).withRel("uplike"),
                         linkTo(methodOn(LikeBeerController.class).modifyOne(b.getId(), "dislike")).withRel("dislike"),
-                        linkTo(methodOn(CommentController.class).findAll(b.getId(), null)).withRel("comments")))
+                        linkTo(methodOn(CommentController.class).findAll(b.getId(), null)).withRel("comments"),
+                        linkTo(methodOn(RecommendController.class).recommendByType(b.getId())).withRel("typeRecommend")))
                     .map(ResponseEntity::ok)
                     .orElse(ResponseEntity.notFound().build());
     }

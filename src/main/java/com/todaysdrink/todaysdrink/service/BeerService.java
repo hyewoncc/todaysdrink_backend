@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -81,5 +80,12 @@ public class BeerService {
         likebeer.downCount();
         likeBeerRepository.save(likebeer);
         return likebeer;
+    }
+
+
+    // 좋아요 탑5 맥주 조회
+    public List<Beer> getTop5BeerByLike() {
+        List<Beer> beers = beerRepository.findTop5OrderByLike();
+        return beers;
     }
 }

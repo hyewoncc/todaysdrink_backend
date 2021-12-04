@@ -2,10 +2,9 @@ package com.todaysdrink.todaysdrink.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.todaysdrink.todaysdrink.domain.Beer;
+import com.todaysdrink.todaysdrink.domain.BeerType;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -31,6 +30,15 @@ public class BeerCustomRepositoryImpl implements BeerCustomRepository{
     @Override
     public List<Beer> findTop5OrderByLike() {
         return jpaQueryFactory.selectFrom(beer)
+                .orderBy(beer.like.count.desc())
+                .limit(5)
+                .fetch();
+    }
+
+    @Override
+    public List<Beer> findTop5ByBeerTypeOrderByLike(BeerType beerType) {
+        return jpaQueryFactory.selectFrom(beer)
+                .where(beer.beerType.eq(beerType))
                 .orderBy(beer.like.count.desc())
                 .limit(5)
                 .fetch();
