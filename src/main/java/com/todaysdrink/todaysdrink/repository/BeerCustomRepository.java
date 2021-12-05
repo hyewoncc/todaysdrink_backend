@@ -10,5 +10,5 @@ import java.util.List;
 public interface BeerCustomRepository {
     List<Beer> findAllOrderByLike(Pageable pageable);
     List<Beer> findTop5OrderByLike();
-    List<Beer> findTop5ByBeerTypeOrderByLike(BeerType beerType);
+    List<Beer> findTop5ByBeerTypeOrderByLike(Beer beer);
 }

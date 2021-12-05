@@ -17,7 +17,7 @@ public class RecommendService {
 
     // 동일 타입 기준 좋아요 순 5개 맥주 추천
     public List<Beer> getRecommendByType(Beer beer) {
-        List<Beer> result = beerRepository.findTop5ByBeerTypeOrderByLike(beer.getBeerType());
+        List<Beer> result = beerRepository.findTop5ByBeerTypeOrderByLike(beer);
         return result;
     }
 }

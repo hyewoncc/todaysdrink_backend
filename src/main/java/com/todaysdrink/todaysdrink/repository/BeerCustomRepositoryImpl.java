@@ -36,9 +36,10 @@ public class BeerCustomRepositoryImpl implements BeerCustomRepository{
     }
 
     @Override
-    public List<Beer> findTop5ByBeerTypeOrderByLike(BeerType beerType) {
+    public List<Beer> findTop5ByBeerTypeOrderByLike(Beer baseBeer) {
         return jpaQueryFactory.selectFrom(beer)
-                .where(beer.beerType.eq(beerType))
+                .where(beer.beerType.eq(baseBeer.getBeerType()))
+                .where(beer.id.ne(baseBeer.getId()))
                 .orderBy(beer.like.count.desc())
                 .limit(5)
                 .fetch();
