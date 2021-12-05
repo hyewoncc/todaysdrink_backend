@@ -26,14 +26,17 @@ public class RecommendController {
     
     private final BeerService beerService;
     private final RecommendService recommendService;
-    
+
     @GetMapping("/beer/{id}")
     public ResponseEntity<CollectionModel<EntityModel<BeerDto>>> recommendByType(@PathVariable Long id) {
         Optional<Beer> beer = beerService.getOneBeer(id);
         List<Beer> recommendBeers = recommendService.getRecommendByType(beer.get());
         List<EntityModel<BeerDto>> beerDtos = recommendBeers.stream()
                 .map(b -> EntityModel.of(new BeerDto(b),
-                        linkTo(methodOn(BeerController.class).findOne(b.getId())).withSelfRel()))
+                        linkTo(methodOn(BeerController.class).findOne(b.getId())).withSelfRel(),
+                        linkTo(methodOn(LikeBeerController.class).findOne(b.getLike().getId())).withRel("like"),
+                        linkTo(methodOn(LikeBeerController.class).modifyOne(b.getLike().getId(),"like")).withRel("uplike"),
+                        linkTo(methodOn(LikeBeerController.class).modifyOne(b.getLike().getId(),"dislike")).withRel("dislike")))
                 .collect(Collectors.toList());
         return ResponseEntity.ok(CollectionModel.of(beerDtos));
     }
