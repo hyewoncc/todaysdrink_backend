@@ -31,8 +31,15 @@ public class BeerController {
 
     // 맥주 목록 조회
     @GetMapping("")
-    public ResponseEntity<CollectionModel<EntityModel<BeerDto>>> findAll(Pageable pageable) {
-        Page<Beer> beers = beerService.getBeerList(pageable);
+    public ResponseEntity<CollectionModel<EntityModel<BeerDto>>> findAll(
+            @RequestParam(required = false) String filters,
+            Pageable pageable) {
+        Page<Beer> beers;
+        if(filters != null) {
+            beers = beerService.getBeerListByFilter(filters, pageable);
+        } else {
+            beers = beerService.getBeerList(pageable);
+        }
         List<EntityModel<BeerDto>> beerDtos = beers.stream()
                 .map(b -> EntityModel.of(new BeerDto(b),
                         linkTo(methodOn(BeerController.class).findOne(b.getId())).withSelfRel(),
@@ -40,8 +47,7 @@ public class BeerController {
                         linkTo(methodOn(LikeBeerController.class).modifyOne(b.getLike().getId(),"like")).withRel("uplike"),
                         linkTo(methodOn(LikeBeerController.class).modifyOne(b.getLike().getId(),"dislike")).withRel("dislike")))
                 .collect(Collectors.toList());
-        return ResponseEntity.ok(CollectionModel.of(beerDtos,
-                linkTo(methodOn(BeerController.class).findAll(pageable)).withSelfRel()));
+        return ResponseEntity.ok(CollectionModel.of(beerDtos));
     }
 
 

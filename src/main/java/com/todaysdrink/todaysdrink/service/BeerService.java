@@ -1,18 +1,25 @@
 package com.todaysdrink.todaysdrink.service;
 
 import com.todaysdrink.todaysdrink.domain.Beer;
+import com.todaysdrink.todaysdrink.domain.Country;
 import com.todaysdrink.todaysdrink.domain.LikeBeer;
 import com.todaysdrink.todaysdrink.dto.BeerDto;
 import com.todaysdrink.todaysdrink.repository.BeerRepository;
 import com.todaysdrink.todaysdrink.repository.LikeBeerRepository;
+import com.todaysdrink.todaysdrink.util.FilterParser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+
+import static com.todaysdrink.todaysdrink.util.FilterParser.KEY_INDEX;
+import static com.todaysdrink.todaysdrink.util.FilterParser.VALUE_INDEX;
 
 @Service
 @Transactional(readOnly = true)
@@ -21,7 +28,7 @@ public class BeerService {
 
     private final BeerRepository beerRepository;
     private final LikeBeerRepository likeBeerRepository;
-
+    private FilterParser filterProcessor = new FilterParser();
 
     // 맥주 추가
     @Transactional
@@ -32,7 +39,6 @@ public class BeerService {
         return beer;
     }
 
-
     // 맥주 좋아요 추가
     @Transactional
     public LikeBeer addLikeBeer() {
@@ -41,13 +47,11 @@ public class BeerService {
         return likeBeer;
     }
 
-
     // 단일 맥주 반환
     public Optional<Beer> getOneBeer(Long beerId) {
         Optional<Beer> beer = beerRepository.findById(beerId);
         return beer;
     }
-
 
     // 맥주 목록 반환
     public Page<Beer> getBeerList(Pageable pageable) {
@@ -55,13 +59,21 @@ public class BeerService {
         return listBeers;
     }
 
+    // 필터가 적용 된 맥주 목록 반환
+    public Page<Beer> getBeerListByFilter(String filter, Pageable pageable) {
+        Page<Beer> listBeers = new PageImpl<>(Collections.emptyList());
+        List<String> searchFilter = filterProcessor.getFilterKeyAndValue(filter);
+        if (searchFilter.get(KEY_INDEX).equals("country")) {
+            listBeers = beerRepository.findByCountry(Country.getCountryByValue(searchFilter.get(VALUE_INDEX)), pageable);
+        }
+        return listBeers;
+    }
 
     // 맥주 좋아요 조회
     public Optional<LikeBeer> getOneLikeBeer(Long likeBeerId) {
         Optional<LikeBeer> likeBeer = likeBeerRepository.findById(likeBeerId);
         return likeBeer;
     }
-
 
     // 맥주 좋아요 실행 후 조회
     @Transactional
@@ -72,7 +84,6 @@ public class BeerService {
         return likebeer;
     }
 
-
     // 맥주 좋아요 취소 후 조회
     @Transactional
     public LikeBeer downLikeBeer(Long likeBeerId) {
@@ -81,7 +92,6 @@ public class BeerService {
         likeBeerRepository.save(likebeer);
         return likebeer;
     }
-
 
     // 좋아요 탑5 맥주 조회
     public List<Beer> getTop5BeerByLike() {
