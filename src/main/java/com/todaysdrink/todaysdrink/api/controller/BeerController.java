@@ -3,6 +3,7 @@ package com.todaysdrink.todaysdrink.api.controller;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 import com.todaysdrink.todaysdrink.domain.Beer;
+import com.todaysdrink.todaysdrink.util.FilterParser;
 import org.springframework.data.domain.Page;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.Link;
@@ -27,6 +28,7 @@ import java.util.stream.Collectors;
 public class BeerController {
 
     private final BeerService beerService;
+    private FilterParser filterProcessor = new FilterParser();
 
 
     // 맥주 목록 조회
@@ -35,8 +37,9 @@ public class BeerController {
             @RequestParam(required = false) String filters,
             Pageable pageable) {
         Page<Beer> beers;
-        if(filters != null) {
-            beers = beerService.getBeerListByFilter(filters, pageable);
+        List<String> searchFilter = filterProcessor.getFilterKeyAndValue(filters);
+        if(!searchFilter.isEmpty()) {
+            beers = beerService.getBeerListByFilter(searchFilter, pageable);
         } else {
             beers = beerService.getBeerList(pageable);
         }

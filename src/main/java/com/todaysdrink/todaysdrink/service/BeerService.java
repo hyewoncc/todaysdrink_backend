@@ -1,6 +1,7 @@
 package com.todaysdrink.todaysdrink.service;
 
 import com.todaysdrink.todaysdrink.domain.Beer;
+import com.todaysdrink.todaysdrink.domain.BeerType;
 import com.todaysdrink.todaysdrink.domain.Country;
 import com.todaysdrink.todaysdrink.domain.LikeBeer;
 import com.todaysdrink.todaysdrink.dto.BeerDto;
@@ -60,12 +61,18 @@ public class BeerService {
     }
 
     // 필터가 적용 된 맥주 목록 반환
-    public Page<Beer> getBeerListByFilter(String filter, Pageable pageable) {
+    public Page<Beer> getBeerListByFilter(List<String> filter, Pageable pageable) {
         Page<Beer> listBeers = new PageImpl<>(Collections.emptyList());
-        List<String> searchFilter = filterProcessor.getFilterKeyAndValue(filter);
-        if (searchFilter.get(KEY_INDEX).equals("country")) {
-            listBeers = beerRepository.findByCountry(Country.getCountryByValue(searchFilter.get(VALUE_INDEX)), pageable);
+        String option  = filter.get(KEY_INDEX);
+        String value = filter.get(VALUE_INDEX);
+        if (option.equals("country")) {
+            listBeers = beerRepository.findByCountry(Country.getCountryByValue(value), pageable);
+        } else if (option.equals("type")) {
+            listBeers = beerRepository.findByBeerType(BeerType.getBeerTypeByValue(value), pageable);
+        } else {
+            listBeers = beerRepository.findAll(pageable);
         }
+
         return listBeers;
     }
 
