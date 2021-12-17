@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -36,9 +37,14 @@ public class BeerController {
     public ResponseEntity<CollectionModel<EntityModel<BeerDto>>> findAll(
             @RequestParam(required = false) String filters,
             Pageable pageable) {
-        Page<Beer> beers;
-        List<String> searchFilter = filterProcessor.getFilterKeyAndValue(filters);
-        if(!searchFilter.isEmpty()) {
+        List<Beer> beers = new ArrayList<>();
+        List<String> searchFilter = new ArrayList<>();
+        System.out.println(pageable.toString());
+        System.out.println(filters);
+        if(filters != null) {
+            searchFilter = filterProcessor.getFilterKeyAndValue(filters);
+        }
+        if(searchFilter.size() >= 2) {
             beers = beerService.getBeerListByFilter(searchFilter, pageable);
         } else {
             beers = beerService.getBeerList(pageable);

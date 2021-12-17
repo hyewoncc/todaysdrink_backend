@@ -3,6 +3,7 @@ package com.todaysdrink.todaysdrink.repository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.todaysdrink.todaysdrink.domain.Beer;
 import com.todaysdrink.todaysdrink.domain.BeerType;
+import com.todaysdrink.todaysdrink.domain.Country;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
@@ -22,7 +23,37 @@ public class BeerCustomRepositoryImpl implements BeerCustomRepository{
         List<Beer> beers = jpaQueryFactory.selectFrom(beer)
                 .orderBy(beer.like.count.desc())
                 .offset(pageable.getOffset())
-                .limit(pageable.getPageNumber())
+                .limit(pageable.getPageSize())
+                .fetch();
+        return beers;
+    }
+
+    @Override
+    public List<Beer> findAllOrderByLikeAsc(Pageable pageable) {
+        List<Beer> beers = jpaQueryFactory.selectFrom(beer)
+                .orderBy(beer.like.count.asc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+        return beers;
+    }
+
+    @Override
+    public List<Beer> findByCountry(Country country, Pageable pageable) {
+        List<Beer> beers = jpaQueryFactory.selectFrom(beer)
+                .where(beer.country.eq(country))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+        return beers;
+    }
+
+    @Override
+    public List<Beer> findByBeerType(BeerType beerType, Pageable pageable) {
+        List<Beer> beers = jpaQueryFactory.selectFrom(beer)
+                .where(beer.beerType.eq(beerType))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
                 .fetch();
         return beers;
     }

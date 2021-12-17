@@ -9,12 +9,11 @@ import com.todaysdrink.todaysdrink.repository.BeerRepository;
 import com.todaysdrink.todaysdrink.repository.LikeBeerRepository;
 import com.todaysdrink.todaysdrink.util.FilterParser;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -55,25 +54,25 @@ public class BeerService {
     }
 
     // 맥주 목록 반환
-    public Page<Beer> getBeerList(Pageable pageable) {
-        Page<Beer> listBeers = beerRepository.findAll(pageable);
-        return listBeers;
+    public List<Beer> getBeerList(Pageable pageable) {
+        List<Beer> beers = beerRepository.findAllOrderByLike(pageable);
+        return beers;
     }
 
     // 필터가 적용 된 맥주 목록 반환
-    public Page<Beer> getBeerListByFilter(List<String> filter, Pageable pageable) {
-        Page<Beer> listBeers = new PageImpl<>(Collections.emptyList());
+    public List<Beer> getBeerListByFilter(List<String> filter, Pageable pageable) {
+        List<Beer> beers = new ArrayList<>();
         String option  = filter.get(KEY_INDEX);
         String value = filter.get(VALUE_INDEX);
         if (option.equals("country")) {
-            listBeers = beerRepository.findByCountry(Country.getCountryByValue(value), pageable);
+            beers = beerRepository.findByCountry(Country.getCountryByValue(value), pageable);
         } else if (option.equals("type")) {
-            listBeers = beerRepository.findByBeerType(BeerType.getBeerTypeByValue(value), pageable);
+            beers = beerRepository.findByBeerType(BeerType.getBeerTypeByValue(value), pageable);
         } else {
-            listBeers = beerRepository.findAll(pageable);
+            beers = beerRepository.findAllOrderByLike(pageable);
         }
 
-        return listBeers;
+        return beers;
     }
 
     // 맥주 좋아요 조회
