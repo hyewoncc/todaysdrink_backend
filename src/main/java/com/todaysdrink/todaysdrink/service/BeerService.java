@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -68,6 +67,12 @@ public class BeerService {
             beers = beerRepository.findByCountry(Country.getCountryByValue(value), pageable);
         } else if (option.equals("type")) {
             beers = beerRepository.findByBeerType(BeerType.getBeerTypeByValue(value), pageable);
+        } else if (option.equals("alcohol")) {
+            if (value.equals("desc")) {
+                beers = beerRepository.findAllOrderByAlcohol(pageable);
+            } else if (value.equals("asc")) {
+                beers = beerRepository.findAllOrderByAlcoholAsc(pageable);
+            }
         } else {
             beers = beerRepository.findAllOrderByLike(pageable);
         }

@@ -39,6 +39,26 @@ public class BeerCustomRepositoryImpl implements BeerCustomRepository{
     }
 
     @Override
+    public List<Beer> findAllOrderByAlcohol(Pageable pageable) {
+        List<Beer> beers = jpaQueryFactory.selectFrom(beer)
+                .orderBy(beer.alcohol.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+        return beers;
+    }
+
+    @Override
+    public List<Beer> findAllOrderByAlcoholAsc(Pageable pageable) {
+        List<Beer> beers = jpaQueryFactory.selectFrom(beer)
+                .orderBy(beer.alcohol.asc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+        return beers;
+    }
+
+    @Override
     public List<Beer> findByCountry(Country country, Pageable pageable) {
         List<Beer> beers = jpaQueryFactory.selectFrom(beer)
                 .where(beer.country.eq(country))
