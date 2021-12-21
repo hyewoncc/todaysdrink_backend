@@ -67,6 +67,12 @@ public class BeerService {
             beers = beerRepository.findByCountry(Country.getCountryByValue(value), pageable);
         } else if (option.equals("type")) {
             beers = beerRepository.findByBeerType(BeerType.getBeerTypeByValue(value), pageable);
+        } else if (option.equals("like")) {
+            if (value.equals("desc")) {
+                beers = beerRepository.findAllOrderByLike(pageable);
+            } else if (value.equals("asc")) {
+                beers = beerRepository.findAllOrderByLikeAsc(pageable);
+            }
         } else if (option.equals("alcohol")) {
             if (value.equals("desc")) {
                 beers = beerRepository.findAllOrderByAlcohol(pageable);
