@@ -14,6 +14,7 @@ import java.util.Optional;
 public class BeerDto {
     private Long id;
     private String name;
+    private String nickname;
     private Country country;
     private BeerType beerType;
     private int bitter;
@@ -26,6 +27,7 @@ public class BeerDto {
     public BeerDto(Beer beer) {
         id = beer.getId();
         name = beer.getName();
+        nickname = beer.getNickname();
         beerType = beer.getBeerType();
         country = beer.getCountry();
         alcohol = beer.getAlcohol();

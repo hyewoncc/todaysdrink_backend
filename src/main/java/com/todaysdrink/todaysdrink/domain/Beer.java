@@ -19,6 +19,7 @@ public class Beer {
     private Long id;
 
     private String name;
+    private String nickname;
 
     @Enumerated(EnumType.STRING)
     private Country country;
@@ -48,6 +49,7 @@ public class Beer {
      */
     private void initBeer(BeerDto beerDto, LikeBeer likeBeer) {
         this.name = beerDto.getName();
+        this.nickname = beerDto.getNickname();
         this.country = beerDto.getCountry();
         this.beerType = beerDto.getBeerType();
         this.bitter = beerDto.getBitter();
