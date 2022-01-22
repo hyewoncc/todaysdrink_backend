@@ -3,13 +3,13 @@ package com.todaysdrink.todaysdrink.domain;
 import java.util.Arrays;
 
 public enum BeerType {
-    LAGER("LAGER"),
+    LAGER("라거"),
     IPA("IPA"),
-    PALE_ALE("PALE_ALE"),
-    STOUT("STOUT"),
-    WEIZEN("WEIZEN"),
-    PILSENER("PILSERNER"),
-    NON_ALCOHOL("NON_ALCOHOL");
+    PALE_ALE("페일 에일"),
+    STOUT("스타우트"),
+    WEIZEN("밀맥주"),
+    PILSENER("필스너"),
+    NON_ALCOHOL("논알콜");
 
     private final String name;
 
@@ -17,9 +17,20 @@ public enum BeerType {
         this.name = name;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public static BeerType getBeerTypeByValue(String value) {
         return Arrays.stream(BeerType.values())
                 .filter(beerType -> beerType.name.equals(value))
+                .findAny()
+                .orElseThrow(() -> new IllegalArgumentException());
+    }
+
+    public static BeerType getBearTypeByName(String name) {
+        return Arrays.stream(BeerType.values())
+                .filter(beerType -> beerType.name.equals(name))
                 .findAny()
                 .orElseThrow(() -> new IllegalArgumentException());
     }

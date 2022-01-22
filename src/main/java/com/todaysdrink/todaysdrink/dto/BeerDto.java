@@ -1,13 +1,10 @@
 package com.todaysdrink.todaysdrink.dto;
 
 import com.todaysdrink.todaysdrink.domain.Beer;
-import com.todaysdrink.todaysdrink.domain.BeerType;
 import com.todaysdrink.todaysdrink.domain.Country;
-import com.todaysdrink.todaysdrink.domain.LikeBeer;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.util.Optional;
 
 @Data
 @AllArgsConstructor
@@ -16,7 +13,7 @@ public class BeerDto {
     private String name;
     private String nickname;
     private Country country;
-    private BeerType beerType;
+    private String beerType;
     private int bitter;
     private double alcohol;
     private String description;
@@ -28,7 +25,7 @@ public class BeerDto {
         id = beer.getId();
         name = beer.getName();
         nickname = beer.getNickname();
-        beerType = beer.getBeerType();
+        beerType = beer.getBeerType().getName();
         country = beer.getCountry();
         alcohol = beer.getAlcohol();
         bitter = beer.getBitter();
