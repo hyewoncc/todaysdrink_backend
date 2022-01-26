@@ -11,26 +11,19 @@ public enum BeerType {
     PILSENER("필스너"),
     NON_ALCOHOL("논알콜");
 
-    private final String name;
+    private final String nickname;
 
-    BeerType(final String name) {
-        this.name = name;
+    BeerType(final String nickname) {
+        this.nickname = nickname;
     }
 
-    public String getName() {
-        return name;
+    public String getNickname() {
+        return nickname;
     }
 
     public static BeerType getBeerTypeByValue(String value) {
         return Arrays.stream(BeerType.values())
-                .filter(beerType -> beerType.name.equals(value))
-                .findAny()
-                .orElseThrow(() -> new IllegalArgumentException());
-    }
-
-    public static BeerType getBearTypeByName(String name) {
-        return Arrays.stream(BeerType.values())
-                .filter(beerType -> beerType.name.equals(name))
+                .filter(beerType -> beerType.name().equals(value))
                 .findAny()
                 .orElseThrow(() -> new IllegalArgumentException());
     }

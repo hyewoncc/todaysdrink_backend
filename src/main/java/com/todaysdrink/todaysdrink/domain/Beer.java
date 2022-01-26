@@ -51,7 +51,7 @@ public class Beer {
         this.name = beerDto.getName();
         this.nickname = beerDto.getNickname();
         this.country = beerDto.getCountry();
-        this.beerType = BeerType.valueOf(beerDto.getBeerType());
+        this.beerType = BeerType.getBeerTypeByValue(beerDto.getBeerType());
         this.bitter = beerDto.getBitter();
         this.alcohol = beerDto.getAlcohol();
         this.description = beerDto.getDescription();

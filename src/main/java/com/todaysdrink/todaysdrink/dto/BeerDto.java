@@ -25,7 +25,7 @@ public class BeerDto {
         id = beer.getId();
         name = beer.getName();
         nickname = beer.getNickname();
-        beerType = beer.getBeerType().getName();
+        beerType = beer.getBeerType().getNickname();
         country = beer.getCountry();
         alcohol = beer.getAlcohol();
         bitter = beer.getBitter();

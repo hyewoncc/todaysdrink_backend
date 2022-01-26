@@ -4,7 +4,6 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 import com.todaysdrink.todaysdrink.domain.Beer;
 import com.todaysdrink.todaysdrink.util.FilterParser;
-import org.springframework.data.domain.Page;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.Link;
 import org.springframework.http.ResponseEntity;
@@ -39,8 +38,6 @@ public class BeerController {
             Pageable pageable) {
         List<Beer> beers = new ArrayList<>();
         List<String> searchFilter = new ArrayList<>();
-        System.out.println(pageable.toString());
-        System.out.println(filters);
         if(filters != null) {
             searchFilter = filterProcessor.getFilterKeyAndValue(filters);
         }
