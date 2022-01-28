@@ -35,7 +35,7 @@ public class CommentController {
     // 특정 맥주의 모든 코멘트 조회
     @GetMapping("")
     public ResponseEntity<CollectionModel<EntityModel<CommentDto>>> findAll(@RequestParam("beerId")Long beerId , Pageable pageable) {
-        Page<Comment> comments = commentService.getCommentList(beerId, pageable);
+        List<Comment> comments = commentService.getCommentList(beerId);
         List<EntityModel<CommentDto>> commentDtos = comments.stream()
                 .map(c -> EntityModel.of(new CommentDto(c),
                         linkTo(methodOn(LikeCommentController.class).findOne(c.getLike().getId())).withRel("like"),

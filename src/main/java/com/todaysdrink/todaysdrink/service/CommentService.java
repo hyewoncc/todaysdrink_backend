@@ -47,9 +47,9 @@ public class CommentService {
 
 
     // 특정 맥주의 댓글 목록 반환
-    public Page<Comment> getCommentList(Long beerId, Pageable pageable) {
+    public List<Comment> getCommentList(Long beerId) {
         Beer beer = beerRepository.getById(beerId);
-        Page<Comment> result = commentRepository.findAllByBeer(beer, pageable);
+        List<Comment> result = commentRepository.findAllByBeer(beer);
         return result;
     }
     
