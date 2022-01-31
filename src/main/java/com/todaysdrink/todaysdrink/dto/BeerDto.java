@@ -12,7 +12,7 @@ public class BeerDto {
     private Long id;
     private String name;
     private String nickname;
-    private Country country;
+    private String country;
     private String beerType;
     private int bitter;
     private double alcohol;
@@ -26,7 +26,7 @@ public class BeerDto {
         name = beer.getName();
         nickname = beer.getNickname();
         beerType = beer.getBeerType().getNickname();
-        country = beer.getCountry();
+        country = beer.getCountry().getNickname();
         alcohol = beer.getAlcohol();
         bitter = beer.getBitter();
         description = beer.getDescription();

@@ -50,7 +50,7 @@ public class Beer {
     private void initBeer(BeerDto beerDto, LikeBeer likeBeer) {
         this.name = beerDto.getName();
         this.nickname = beerDto.getNickname();
-        this.country = beerDto.getCountry();
+        this.country = Country.getCountryByValue(beerDto.getCountry());
         this.beerType = BeerType.getBeerTypeByValue(beerDto.getBeerType());
         this.bitter = beerDto.getBitter();
         this.alcohol = beerDto.getAlcohol();
