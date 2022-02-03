@@ -8,6 +8,7 @@ public enum Country {
     DEU("독일"),
     DNK("덴마크"),
     GBR("영국"),
+    IRL("아일랜드"),
     JPN("일본"),
     KOR("대한민국"),
     NLD("네덜란드"),

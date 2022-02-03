@@ -3,13 +3,17 @@ package com.todaysdrink.todaysdrink.domain;
 import java.util.Arrays;
 
 public enum BeerType {
-    LAGER("라거"),
+    ALE("에일"),
     IPA("IPA"),
+    KOLSCH("쾰시"),
+    PALE_LAGER("페일 라거"),
+    LAGER("라거"),
+    NON_ALCOHOL("논알콜"),
     PALE_ALE("페일 에일"),
-    STOUT("스타우트"),
-    WEIZEN("밀맥주"),
     PILSENER("필스너"),
-    NON_ALCOHOL("논알콜");
+    RADLER("라들러"),
+    STOUT("스타우트"),
+    WEIZEN("밀맥주");
 
     private final String nickname;
 
