@@ -1,6 +1,7 @@
 package com.todaysdrink.todaysdrink.api.controller;
 
 import com.todaysdrink.todaysdrink.dto.MatchDto;
+import com.todaysdrink.todaysdrink.service.MatchService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,12 +15,11 @@ import java.util.List;
 @RequestMapping("/api/match")
 public class MatchController {
 
+	private final MatchService matchService;
+
 	// 취향 맥주 추천
 	@PostMapping("")
 	public void findMatchBeers(@RequestBody List<MatchDto> matchDtos) {
-		System.out.println("match start");
-		for (MatchDto matchDto : matchDtos) {
-			System.out.println(matchDto.toString());
-		}
+		matchService.getMatchBeers(matchDtos);
 	}
 }

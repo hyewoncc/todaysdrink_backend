@@ -59,6 +59,31 @@ public class BeerCustomRepositoryImpl implements BeerCustomRepository{
     }
 
     @Override
+    public List<Beer> findAllByAlcoholOverPercent(Long percent) {
+        List<Beer> beers = jpaQueryFactory.selectFrom(beer)
+                .where(beer.alcohol.goe(percent))
+                .fetch();
+        return beers;
+    }
+
+    @Override
+    public List<Beer> findAllByAlcoholUnderPercent(Long percent) {
+        List<Beer> beers = jpaQueryFactory.selectFrom(beer)
+                .where(beer.alcohol.lt(percent))
+                .fetch();
+        return beers;
+    }
+
+    @Override
+    public List<Beer> findAllByAlcoholBetweenPercent(Long from, Long to) {
+        List<Beer> beers = jpaQueryFactory.selectFrom(beer)
+                .where(beer.alcohol.between(from, to))
+                .fetch();
+        return beers;
+    }
+
+
+    @Override
     public List<Beer> findByCountry(Country country, Pageable pageable) {
         List<Beer> beers = jpaQueryFactory.selectFrom(beer)
                 .where(beer.country.eq(country))
@@ -69,7 +94,15 @@ public class BeerCustomRepositoryImpl implements BeerCustomRepository{
     }
 
     @Override
-    public List<Beer> findByBeerType(BeerType beerType, Pageable pageable) {
+    public List<Beer> findByBeerType(BeerType beerType) {
+        List<Beer> beers = jpaQueryFactory.selectFrom(beer)
+                .where(beer.beerType.eq(beerType))
+                .fetch();
+        return beers;
+    }
+
+    @Override
+    public List<Beer> findByBeerTypePage(BeerType beerType, Pageable pageable) {
         List<Beer> beers = jpaQueryFactory.selectFrom(beer)
                 .where(beer.beerType.eq(beerType))
                 .offset(pageable.getOffset())

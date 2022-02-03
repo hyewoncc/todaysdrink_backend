@@ -10,10 +10,17 @@ import java.util.List;
 public interface BeerCustomRepository {
     List<Beer> findAllOrderByLike(Pageable pageable);
     List<Beer> findAllOrderByLikeAsc(Pageable pageable);
+    List<Beer> findTop5OrderByLike();
+
     List<Beer> findAllOrderByAlcohol(Pageable pageable);
     List<Beer> findAllOrderByAlcoholAsc(Pageable pageable);
+    List<Beer> findAllByAlcoholOverPercent(Long percent);
+    List<Beer> findAllByAlcoholUnderPercent(Long percent);
+    List<Beer> findAllByAlcoholBetweenPercent(Long from, Long to);
+
     List<Beer> findByCountry(Country country, Pageable pageable);
-    List<Beer> findByBeerType(BeerType beerType, Pageable pageable);
-    List<Beer> findTop5OrderByLike();
+
+    List<Beer> findByBeerType(BeerType beerType);
+    List<Beer> findByBeerTypePage(BeerType beerType, Pageable pageable);
     List<Beer> findTop5ByBeerTypeOrderByLike(Beer beer);
 }
