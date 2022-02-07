@@ -4,6 +4,7 @@ import com.todaysdrink.todaysdrink.domain.Beer;
 import com.todaysdrink.todaysdrink.domain.BeerRecommends;
 import com.todaysdrink.todaysdrink.domain.BeerType;
 import com.todaysdrink.todaysdrink.domain.match.Alcohol;
+import com.todaysdrink.todaysdrink.domain.match.Sparkling;
 import com.todaysdrink.todaysdrink.dto.MatchDto;
 import com.todaysdrink.todaysdrink.repository.BeerRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,11 +26,12 @@ public class MatchService {
 	private final Long HIGH_ALCOHOL_RANGE = 5L;
 	private final Long LOW_ALCOHOL_RANGE = 4L;
 
+	private final int SPARKLING_INDEX = 1;
+
 	public void getMatchBeers(List<MatchDto> matchDtos) {
 		BeerRecommends beerRecommends = new BeerRecommends(new HashMap<>());
-		MatchDto alcoholMatch = matchDtos.get(ALCOHOL_INDEX);
-		List<Beer> beers = matchByAlcohol(alcoholMatch);
-		beerRecommends.addListInRecommend(beers);
+		beerRecommends.addListInRecommend(matchByAlcohol(matchDtos.get(ALCOHOL_INDEX)));
+		beerRecommends.addListInRecommend(matchBySparkling(matchDtos.get(SPARKLING_INDEX)));
 		List<Beer> result = beerRecommends.pickTop3();
 	}
 
@@ -51,6 +53,23 @@ public class MatchService {
 		}
 		if (answer.equals(Alcohol.ZERO.name())) {
 			beers = beerRepository.findByBeerType(BeerType.NON_ALCOHOL);
+			return beers;
+		}
+
+		return beers;
+	}
+
+	public List<Beer> matchBySparkling(MatchDto matchDto) {
+		String answer = matchDto.getAnswer();
+		List<Beer> beers = new ArrayList<>();
+
+		if (answer.equals(Sparkling.HARD.name())) {
+			beers = beerRepository.findHardSparkling();
+			return beers;
+		}
+
+		if (answer.equals(Sparkling.MILD.name())) {
+			beers = beerRepository.findMildSparkling();
 			return beers;
 		}
 

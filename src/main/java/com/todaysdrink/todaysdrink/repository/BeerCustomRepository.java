@@ -23,4 +23,7 @@ public interface BeerCustomRepository {
     List<Beer> findByBeerType(BeerType beerType);
     List<Beer> findByBeerTypePage(BeerType beerType, Pageable pageable);
     List<Beer> findTop5ByBeerTypeOrderByLike(Beer beer);
+
+    List<Beer> findHardSparkling();
+    List<Beer> findMildSparkling();
 }
