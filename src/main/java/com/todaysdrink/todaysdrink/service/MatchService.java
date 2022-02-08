@@ -37,42 +37,37 @@ public class MatchService {
 
 	public List<Beer> matchByAlcohol(MatchDto matchDto) {
 		String answer = matchDto.getAnswer();
-		List<Beer> beers = new ArrayList<>();
 
 		if (answer.equals(Alcohol.HIGH.name())) {
-			beers = beerRepository.findAllByAlcoholOverPercent(HIGH_ALCOHOL_RANGE);
-			return beers;
-		}
-		if (answer.equals(Alcohol.MIDDLE.name())) {
-			beers = beerRepository.findAllByAlcoholBetweenPercent(LOW_ALCOHOL_RANGE, HIGH_ALCOHOL_RANGE);
-			return beers;
-		}
-		if (answer.equals(Alcohol.LOW.name())) {
-			beers = beerRepository.findAllByAlcoholUnderPercent(LOW_ALCOHOL_RANGE);
-			return beers;
-		}
-		if (answer.equals(Alcohol.ZERO.name())) {
-			beers = beerRepository.findByBeerType(BeerType.NON_ALCOHOL);
-			return beers;
+			return beerRepository.findAllByAlcoholOverPercent(HIGH_ALCOHOL_RANGE);
 		}
 
-		return beers;
+		if (answer.equals(Alcohol.MIDDLE.name())) {
+			return beerRepository.findAllByAlcoholBetweenPercent(LOW_ALCOHOL_RANGE, HIGH_ALCOHOL_RANGE);
+		}
+
+		if (answer.equals(Alcohol.LOW.name())) {
+			return beerRepository.findAllByAlcoholUnderPercent(LOW_ALCOHOL_RANGE);
+		}
+
+		if (answer.equals(Alcohol.ZERO.name())) {
+			return beerRepository.findByBeerType(BeerType.NON_ALCOHOL);
+		}
+
+		return new ArrayList<>();
 	}
 
 	public List<Beer> matchBySparkling(MatchDto matchDto) {
 		String answer = matchDto.getAnswer();
-		List<Beer> beers = new ArrayList<>();
 
 		if (answer.equals(Sparkling.HARD.name())) {
-			beers = beerRepository.findHardSparkling();
-			return beers;
+			return beerRepository.findHardSparkling();
 		}
 
 		if (answer.equals(Sparkling.MILD.name())) {
-			beers = beerRepository.findMildSparkling();
-			return beers;
+			return beerRepository.findMildSparkling();
 		}
 
-		return beers;
+		return new ArrayList<>();
 	}
 }
