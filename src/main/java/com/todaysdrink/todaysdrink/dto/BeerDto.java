@@ -14,7 +14,7 @@ public class BeerDto {
     private String nickname;
     private String country;
     private String beerType;
-    private int bitter;
+    private double bitter;
     private double alcohol;
     private String description;
     private int images;

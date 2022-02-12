@@ -27,7 +27,7 @@ public class Beer {
     @Enumerated(EnumType.STRING)
     private BeerType beerType;
 
-    private int bitter;
+    private double bitter;
     private double alcohol;
 
     @Column(length = 512)
