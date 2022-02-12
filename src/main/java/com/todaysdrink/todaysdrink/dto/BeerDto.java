@@ -18,6 +18,7 @@ public class BeerDto {
     private double alcohol;
     private String description;
     private int images;
+    private boolean collaboration;
     private Long beerLikeId;
     private Long beerLikes;
 
@@ -31,6 +32,7 @@ public class BeerDto {
         bitter = beer.getBitter();
         description = beer.getDescription();
         images = beer.getImages();
+        collaboration = beer.isCollaboration();
         beerLikeId = beer.getLike().getId();
         beerLikes = beer.getLike().getCount();
     }

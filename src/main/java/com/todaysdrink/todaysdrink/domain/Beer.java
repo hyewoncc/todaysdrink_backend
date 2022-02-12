@@ -35,6 +35,9 @@ public class Beer {
 
     private int images;
 
+    @Column(columnDefinition = "boolean default false")
+    private boolean collaboration;
+
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "LIKEBEER_ID")
     private LikeBeer like;
@@ -57,6 +60,7 @@ public class Beer {
         this.description = beerDto.getDescription();
         this.images = beerDto.getImages();
         this.like = likeBeer;
+        this.collaboration = beerDto.isCollaboration();
     }
 
     /* 생성 */
