@@ -26,4 +26,9 @@ public interface BeerCustomRepository {
 
     List<Beer> findHardSparkling();
     List<Beer> findMildSparkling();
+
+    List<Beer> findBitterOverPoint(Double point);
+    List<Beer> findBitterBetweenPoints(Double lowPoint, Double highPoint);
+    List<Beer> findBitterUnderPointNotZero(Double point);
+    List<Beer> findBitterZero();
 }

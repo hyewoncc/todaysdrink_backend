@@ -149,4 +149,33 @@ public class BeerCustomRepositoryImpl implements BeerCustomRepository{
 						.or(beer.beerType.eq(BeerType.WEIZEN)))
 				.fetch();
 	}
+
+	@Override
+	public List<Beer> findBitterOverPoint(Double point) {
+		return jpaQueryFactory.selectFrom(beer)
+				.where(beer.bitter.goe(point))
+				.fetch();
+	}
+
+	@Override
+	public List<Beer> findBitterBetweenPoints(Double lowPoint, Double highPoint) {
+		return jpaQueryFactory.selectFrom(beer)
+				.where(beer.bitter.between(lowPoint, highPoint))
+				.fetch();
+	}
+
+	@Override
+	public List<Beer> findBitterUnderPointNotZero(Double point) {
+		return jpaQueryFactory.selectFrom(beer)
+				.where(beer.bitter.lt(point))
+				.where(beer.bitter.ne(0.0))
+				.fetch();
+	}
+
+	@Override
+	public List<Beer> findBitterZero() {
+		return jpaQueryFactory.selectFrom(beer)
+				.where(beer.bitter.eq(0.0))
+				.fetch();
+	}
 }
